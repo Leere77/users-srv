@@ -4,8 +4,9 @@ import ru.mirea.userssrv.ErrorIncorrectUserData;
 import ru.mirea.userssrv.ErrorZloumishlennik;
 
 public class main {
-    public void main() throws ErrorZloumishlennik, ErrorIncorrectUserData {
+
+    public static void main(String[] args) throws ErrorZloumishlennik, ErrorIncorrectUserData {
         Users u = new Users();
-        u.logIn("Username", "smth3");
+        u.logIn("usernameaa", "smth3");
     }
 }

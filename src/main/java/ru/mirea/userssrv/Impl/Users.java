@@ -14,13 +14,15 @@ public class Users implements ru.mirea.userssrv.Users {
 
     @Override
     public Users logIn(String userName, String password) throws ErrorZloumishlennik, ErrorIncorrectUserData {
-        Pattern p = Pattern.compile("[a-zA-Z].{8,20}");
+        Pattern p = Pattern.compile("^([a-zA-Z]+)$");
         Matcher m = p.matcher(userName);
 
         if(m.matches()) {
             System.out.print("okay");
             this.name = userName;
             this.password = password;
+        } else {
+            System.out.print("not okay");
         }
         return this;
     }
