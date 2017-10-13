@@ -2,12 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GitHub-users-srv.iml" filepath="$PROJECT_DIR$/.idea/modules/GitHub-users-srv.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GitHub-users-srv_main.iml" filepath="$PROJECT_DIR$/.idea/modules/GitHub-users-srv_main.iml" group="users-srv" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GitHub-users-srv_test.iml" filepath="$PROJECT_DIR$/.idea/modules/GitHub-users-srv_test.iml" group="users-srv" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/users-srv.iml" filepath="$PROJECT_DIR$/.idea/modules/users-srv.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/users-srv_main.iml" filepath="$PROJECT_DIR$/.idea/modules/users-srv_main.iml" group="users-srv" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/users-srv_test.iml" filepath="$PROJECT_DIR$/.idea/modules/users-srv_test.iml" group="users-srv" />
+      <module fileurl="file://$PROJECT_DIR$/src/main/main.iml" filepath="$PROJECT_DIR$/src/main/main.iml" />
     </modules>
   </component>
 </project>

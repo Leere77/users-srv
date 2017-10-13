@@ -16,8 +16,6 @@ public interface Users {
      * @version 1.0
      * @author Markin T. M.<tixomark@mail.ru>
      */
-    Users logIn (String userName, String password)
+    User logIn (String userName, String password)
     throws ErrorZloumishlennik, ErrorIncorrectUserData;
-
-
 }

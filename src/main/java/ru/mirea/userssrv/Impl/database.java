@@ -1,17 +1,75 @@
 package ru.mirea.userssrv.Impl;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
+import java.security.*;
 
 public class database {
-    public void connect() {
+
+    public Connection connect() {
+        Connection co = null;
         try {
-            Class.forName("org.sqlite.JDBC");
-            Connection co = DriverManager.getConnection("jdbc:sqlite:c:\\Users\\LeereChan\\Documents\\db\\users.s3db");
-            System.out.println("Connected");
-        } catch (Exception e) {
+            co = DriverManager.getConnection("jdbc:sqlite:c:/Users/LeereChan/Documents/db/users.s3db");
+            if(co != null)
+                return co;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return co;
+    }
+
+    public boolean check(String name, String pass){
+        String que = "SELECT ID, user, password, level, isLoggined FROM user";
+        try (Connection conn = this.connect();
+             Statement q = conn.createStatement();
+             ResultSet rs = q.executeQuery(que))
+        {
+            while (rs.next()){
+                /*System.out.println(rs.getInt("id") +  "\t" +
+                        rs.getString("user") + "\t" +
+                        rs.getString("password") + "\t"
+                        );*/
+                if(rs.getString("user").equals(name) && rs.getString("password").equals(pass))
+                    return true;
+            }
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    public int level(String name){
+        String que = "SELECT level FROM user WHERE user = '" + name + "'";
+        try (Connection conn = this.connect();
+             Statement q = conn.createStatement();
+             ResultSet rs = q.executeQuery(que)) {
+            int result = rs.getInt("level");
+            return rs.wasNull() ? 0 : result;
+        }
+        catch (SQLException e){
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+    public void register(String user, String password, int level, boolean isLoggined){
+        String que = "INSERT INTO user (user, password, level, isLoggined) VALUES(?,?,?,?)";
+        try (Connection conn = this.connect();
+             PreparedStatement pstmt = conn.prepareStatement(que)) {
+            pstmt.setString(1, user);
+            pstmt.setString(2, password);
+            pstmt.setInt(3, level);
+            pstmt.setBoolean(4, isLoggined);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-
+    public void close(){
+        try {
+            this.connect().close();
+        }
+        catch (SQLException e){
+            System.out.print(e.getMessage());
+        }
+    }
 }

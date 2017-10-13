@@ -22,4 +22,5 @@ public interface User {
      */
     void updateUserData(String Password, String NewPassword, String SecondNewPassword)
     throws ErrorIncesecurePassword;
+
 }
