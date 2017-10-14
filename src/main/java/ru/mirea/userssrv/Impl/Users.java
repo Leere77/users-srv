@@ -16,6 +16,7 @@ public class Users implements ru.mirea.userssrv.Users {
         int level = db.level(userName);
         if(level != 0){
             if(db.check(userName, password)){
+                db.out(true, userName);
                 switch (level) {
                     case 1: User u = new ru.mirea.userssrv.Impl.User(userName, password);
                             System.out.print("You've signed in as an regular user");
@@ -29,17 +30,18 @@ public class Users implements ru.mirea.userssrv.Users {
             }
         } else
             System.out.print("User is not exist");
+        db.close();
         return null;
     }
 
     public boolean checkLogin(String in) {
-        Pattern p = Pattern.compile("^([a-zA-Z]+)$");
+        Pattern p = Pattern.compile("\\w{8,20}");
         Matcher m = p.matcher(in);
-
-        if (m.matches()) {
-            System.out.print("okay");
-        } else {
-            System.out.print("not okay");
-        }
+        return m.matches();
+    }
+    public boolean checkPassword(String in) {
+        Pattern p = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,20}");
+        Matcher m = p.matcher(in);
+        return m.matches();
     }
 }

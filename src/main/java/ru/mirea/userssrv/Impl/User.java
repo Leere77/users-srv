@@ -13,11 +13,21 @@ public class User implements ru.mirea.userssrv.User {
 
     @Override
     public void logOut() {
-
+        database d = new database();
+        d.out(false, this.name);
+        d.close();
     }
 
     @Override
     public void updateUserData(String Password, String NewPassword, String SecondNewPassword) throws ErrorIncesecurePassword {
+        database d = new database();
+        Users u = new Users();
+        if(!u.checkPassword(NewPassword))
+            return;
 
+        if(NewPassword.equals(SecondNewPassword))
+            d.updateUser(Password, NewPassword, this.name);
+        else throw new ErrorIncesecurePassword();
+        d.close();
     }
 }

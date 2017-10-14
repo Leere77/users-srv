@@ -1,5 +1,7 @@
 package ru.mirea.userssrv;
 
+import ru.mirea.userssrv.Impl.User;
+
 public interface Users {
 
 

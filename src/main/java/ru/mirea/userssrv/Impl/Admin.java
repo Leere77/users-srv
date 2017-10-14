@@ -11,22 +11,28 @@ public class Admin extends User implements ru.mirea.userssrv.Admin{
     }
 
     @Override
-    public void adminOnlyUserCreate(String userName, String Password, String password, int userID) throws ErrorBadData, ErrorCloneUser, ErrorIncesecurePassword, ErrorLevelAccess {
-
+    public void adminOnlyUserCreate(String userName, String Password, String password, int level) throws ErrorBadData, ErrorCloneUser, ErrorIncesecurePassword, ErrorLevelAccess {
+        Users u = new Users();
+        database d = new database();
+        if(u.checkLogin(userName)){
+            if(u.checkPassword(Password)){
+                if(d.level(this.name) == 2){
+                    if(d.level(this.name)>0){
+                        d.register(userName, password, level, false);
+                    } else throw new ErrorCloneUser();
+                } else throw new ErrorLevelAccess();
+            } else throw new ErrorIncesecurePassword();
+        } else throw new ErrorBadData();
+        d.close();
     }
 
     @Override
     public void adminOnlyUpdateUserLevel(int userID, int userLevelUpdate) throws ErrorIncorrectUserData {
-
+        database d = new database();
+        if(d.level(d.get(userID, "user"))>0)
+            d.update(userID, userLevelUpdate);
+        else throw new ErrorIncorrectUserData();
+        d.close();
     }
 
-    @Override
-    public void logOut() {
-
-    }
-
-    @Override
-    public void updateUserData(String Password, String NewPassword, String SecondNewPassword) throws ErrorIncesecurePassword {
-
-    }
 }

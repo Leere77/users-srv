@@ -18,7 +18,7 @@ public interface Admin extends User{
      * @version 1.0
      * @author Markin T. M.<tixomark@mail.ru>
      */
-    void adminOnlyUserCreate (String userName, String Password, String password, int userID)
+    void adminOnlyUserCreate (String userName, String Password, String password, int level)
     throws ErrorBadData, ErrorCloneUser, ErrorIncesecurePassword, ErrorLevelAccess;
 
     /**
@@ -26,7 +26,7 @@ public interface Admin extends User{
      * userID уровень доступа которого нужно изменить, проверка на наличие пользователя с таким идентификатором.
      * userLevelUpdate проверка на 0 или 1, проверка на совпадение с текущим уровнем доступа для пользователя, уровень доступа которого нужно изменить.
      * @param userID /Иидентификатор пользователя.
-     * @param userLevelUpdate /Новый уровень доступа для существующего пользователя (0-рядовой, 1-администратор).
+     * @param userLevelUpdate /Новый уровень доступа для существующего пользователя (1-рядовой, 2-администратор).
      * @throws ErrorIncorrectUserData /Проверка на существование данного пользователя в базе данных.
      */
     void adminOnlyUpdateUserLevel (int userID, int userLevelUpdate)
