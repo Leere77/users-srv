@@ -18,28 +18,30 @@ public class Users implements ru.mirea.userssrv.Users {
             if(db.check(userName, password)){
                 db.out(true, userName);
                 switch (level) {
-                    case 1: User u = new ru.mirea.userssrv.Impl.User(userName, password);
-                            System.out.print("You've signed in as an regular user");
+                    case 1: User u =  new User(userName, password);
+                            System.out.print("You've signed in as an regular user\n");
+                            db.close();
                             return u;
                     case 2: Admin u1 = new ru.mirea.userssrv.Impl.Admin(userName, password);
-                            System.out.print("You've signed in as an admin");
+                            db.close();
+                            System.out.print("You've signed in as an admin\n");
                             return u1;
                 }
             } else {
-                System.out.print("Wrong user data");
+                throw new ErrorZloumishlennik();
             }
         } else
-            System.out.print("User is not exist");
+            throw new ErrorIncorrectUserData();
         db.close();
         return null;
     }
 
-    public boolean checkLogin(String in) {
+    protected boolean checkLogin(String in) {
         Pattern p = Pattern.compile("\\w{8,20}");
         Matcher m = p.matcher(in);
         return m.matches();
     }
-    public boolean checkPassword(String in) {
+    protected boolean checkPassword(String in) {
         Pattern p = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,20}");
         Matcher m = p.matcher(in);
         return m.matches();

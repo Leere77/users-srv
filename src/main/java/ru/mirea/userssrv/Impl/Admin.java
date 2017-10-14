@@ -3,8 +3,8 @@ package ru.mirea.userssrv.Impl;
 import ru.mirea.userssrv.*;
 
 public class Admin extends User implements ru.mirea.userssrv.Admin{
-    public String name;
-    public String password;
+    private String name;
+    private String password;
 
     public Admin(String name, String password) {
         super(name, password);
@@ -15,6 +15,7 @@ public class Admin extends User implements ru.mirea.userssrv.Admin{
         Users u = new Users();
         database d = new database();
         if(u.checkLogin(userName)){
+            System.out.print(this.name);
             if(u.checkPassword(Password)){
                 if(d.level(this.name) == 2){
                     if(d.level(this.name)>0){

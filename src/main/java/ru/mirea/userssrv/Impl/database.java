@@ -80,14 +80,14 @@ public class database {
 
     public void updateUser(String p0, String p1, String name){
         String que = "SELECT password FROM user WHERE user='"+name+"'";
-        String que1 = "UPDATE user SET password = "+ p1 + " user='"+name+"'";
+        String que1 = "UPDATE user SET password = '"+ p1 + "' WHERE user='"+name+"'";
         try {
             Connection conn = this.connect();
             Statement q = conn.createStatement();
             ResultSet rs = q.executeQuery(que);
             String result = rs.getString("password");
             if(result.equals(p0)){
-                PreparedStatement pstmt = conn.prepareStatement(que);
+                PreparedStatement pstmt = conn.prepareStatement(que1);
                 pstmt.executeUpdate();
             }
         } catch (SQLException e) {
