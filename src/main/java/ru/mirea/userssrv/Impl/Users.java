@@ -3,9 +3,10 @@ package ru.mirea.userssrv.Impl;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ru.mirea.userssrv.ErrorBadData;
+import ru.mirea.userssrv.ErrorIncesecurePassword;
 import ru.mirea.userssrv.ErrorIncorrectUserData;
 import ru.mirea.userssrv.ErrorZloumishlennik;
-//import ru.mirea.userssrv.User;
 
 public class Users implements ru.mirea.userssrv.Users {
 
@@ -19,12 +20,10 @@ public class Users implements ru.mirea.userssrv.Users {
                 db.out(true, userName);
                 switch (level) {
                     case 1: User u =  new User(userName, password);
-                            System.out.print("You've signed in as an regular user\n");
                             db.close();
                             return u;
                     case 2: Admin u1 = new ru.mirea.userssrv.Impl.Admin(userName, password);
                             db.close();
-                            System.out.print("You've signed in as an admin\n");
                             return u1;
                 }
             } else {
@@ -36,12 +35,12 @@ public class Users implements ru.mirea.userssrv.Users {
         return null;
     }
 
-    protected boolean checkLogin(String in) {
+    protected boolean checkLogin(String in) throws ErrorBadData {
         Pattern p = Pattern.compile("\\w{8,20}");
         Matcher m = p.matcher(in);
         return m.matches();
     }
-    protected boolean checkPassword(String in) {
+    protected boolean checkPassword(String in) throws ErrorIncesecurePassword {
         Pattern p = Pattern.compile("(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,20}");
         Matcher m = p.matcher(in);
         return m.matches();

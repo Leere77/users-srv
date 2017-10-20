@@ -1,5 +1,6 @@
 package ru.mirea.userssrv.Impl;
 
+import ru.mirea.userssrv.Admin;
 import ru.mirea.userssrv.ErrorIncorrectUserData;
 import ru.mirea.userssrv.ErrorZloumishlennik;
 
@@ -9,11 +10,10 @@ public class main {
         Users u = new Users();
         try{
             User u1 = u.logIn("admin", "r3uc3d");
-            if(u1 instanceof ru.mirea.userssrv.Impl.Admin) {
-                u1 = (ru.mirea.userssrv.Impl.Admin) u1;
-                u1.adminOnlyUserCreate("useraaaaa", "aaaaAAAAd3", "aaaaAAAAd3", 1);
+            if(u1 instanceof ru.mirea.userssrv.Admin) {
+                ((Admin) u1).adminOnlyUserCreate("userUser", "qwertyQWERTY1", "qwertyQWERTY1", 1);
+                //System.out.print(u1.name);
             }
-            //u1.updateUserData("0000", "aaaaAAAA1", "aaaaAAAA1");
         }
         catch (Exception e){
             System.out.print(e);

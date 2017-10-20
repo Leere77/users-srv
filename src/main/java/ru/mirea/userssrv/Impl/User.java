@@ -22,10 +22,8 @@ public class User implements ru.mirea.userssrv.User {
     public void updateUserData(String Password, String NewPassword, String SecondNewPassword) throws ErrorIncesecurePassword {
         database d = new database();
         Users u = new Users();
-        if(!u.checkPassword(NewPassword)){
-            d.close();
-            throw new ErrorIncesecurePassword();
-        }
+        if(!u.checkPassword(NewPassword))
+            return;
 
         if(NewPassword.equals(SecondNewPassword))
             d.updateUser(Password, NewPassword, this.name);
