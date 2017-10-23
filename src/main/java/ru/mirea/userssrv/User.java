@@ -6,7 +6,7 @@ public interface User {
     /**
      * Выход
      */
-    void logOut();
+    void logOut() throws ErrorIncorrectUserData;
 
     /**
      * Изменение пароля ползователя.

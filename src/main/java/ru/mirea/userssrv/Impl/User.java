@@ -1,33 +1,32 @@
 package ru.mirea.userssrv.Impl;
 
 import ru.mirea.userssrv.ErrorIncesecurePassword;
+import ru.mirea.userssrv.ErrorIncorrectUserData;
 
 public class User implements ru.mirea.userssrv.User {
-    public String name;
-    public String password;
+    protected String name;
+    protected String password;
 
-    public User(String name, String password) {
+    User(String name, String password) {
         this.name = name;
         this.password = password;
     }
 
     @Override
-    public void logOut() {
-        database d = new database();
-        d.out(false, this.name);
-        d.close();
+    public void logOut() throws ErrorIncorrectUserData{
+        db d = new db();
+        d.set(this.name, "isLoggined", false);
     }
 
     @Override
-    public void updateUserData(String Password, String NewPassword, String SecondNewPassword) throws ErrorIncesecurePassword {
-        database d = new database();
-        Users u = new Users();
-        if(!u.checkPassword(NewPassword))
-            return;
-
-        if(NewPassword.equals(SecondNewPassword))
-            d.updateUser(Password, NewPassword, this.name);
-        else throw new ErrorIncesecurePassword();
-        d.close();
+    public void updateUserData(String Password, String NewPassword, String SecondNewPassword) throws ErrorIncesecurePassword{
+        if (NewPassword.equals(SecondNewPassword)) {
+            if (Users.checkPassword(NewPassword)) {
+                db d = new db();
+                if(d.get(this.name)[2].equals(Password))
+                    d.set(this.name, "password", NewPassword);
+            } else
+                throw new ErrorIncesecurePassword();
+        }
     }
 }

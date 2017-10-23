@@ -7,18 +7,17 @@ public class database {
 
     public Connection connect() {
         Connection co = null;
+
         try {
             co = DriverManager.getConnection("jdbc:sqlite:c:/Users/LeereChan/Documents/db/users.s3db");
-            if(co != null)
-                return co;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
         return co;
     }
 
     public String get(int id, String what){
-        String que = "SELECT '"+ what +"' FROM user WHERE ID="+id;
+        String que = "SELECT "+ what +" FROM user WHERE ID="+id;
         try (Connection conn = this.connect();
              Statement q = conn.createStatement();
              ResultSet rs = q.executeQuery(que))
@@ -39,10 +38,6 @@ public class database {
              ResultSet rs = q.executeQuery(que))
         {
             while (rs.next()){
-                /*System.out.println(rs.getInt("id") +  "\t" +
-                        rs.getString("user") + "\t" +
-                        rs.getString("password") + "\t"
-                        );*/
                 if(rs.getString("user").equals(name) && rs.getString("password").equals(pass))
                     return true;
             }

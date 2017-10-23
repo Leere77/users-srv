@@ -4,30 +4,38 @@ import ru.mirea.userssrv.*;
 
 public class Admin extends User implements ru.mirea.userssrv.Admin{
 
-    public Admin(String name, String password) {
+    Admin(String name, String password) {
         super(name, password);
     }
 
     @Override
     public void adminOnlyUserCreate(String userName, String Password, String password, int level) throws ErrorBadData, ErrorCloneUser, ErrorIncesecurePassword, ErrorLevelAccess {
-        Users u = new Users();
-        database d = new database();
-        if(u.checkLogin(userName) && u.checkPassword(Password)){
-                if(d.level(this.name) == 2){
-                    if(d.level(this.name)>0){
-                        d.register(userName, password, level, false);
-                    } else throw new ErrorCloneUser();
-                } else throw new ErrorLevelAccess();
-        }
-        d.close();
+        db d = new db();
+        if(d.get(userName)!=null)
+            throw new ErrorCloneUser();
+        if(!password.equals(Password))
+            return;
+        if(!Users.checkLogin(userName))
+            throw new ErrorBadData();
+        if(!Users.checkPassword(Password))
+            throw new ErrorIncesecurePassword();
+
+        if(Integer.parseInt(d.get(this.name)[3])==0){
+            d.query("INSERT INTO user (user, password, level, isLoggined) VALUES('"+
+                    userName + "', '"+
+                    password + "', "+
+                    level + ", "+
+                    "'FALSE')");
+        } else
+            throw new ErrorLevelAccess();
     }
 
     @Override
     public void adminOnlyUpdateUserLevel(int userID, int userLevelUpdate) throws ErrorIncorrectUserData {
-        database d = new database();
-        if(d.level(d.get(userID, "user"))>0)
-            d.update(userID, userLevelUpdate);
-        else throw new ErrorIncorrectUserData();
-        d.close();
+        db d = new db();
+        if(d.get(userID)==null)
+            throw new ErrorIncorrectUserData();
+
+        d.set(d.get(userID)[0], "level", userLevelUpdate);
     }
 }
